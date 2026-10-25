@@ -1,0 +1,15 @@
+{
+  "name": "dungeon-dice-game",
+  "version": "1.0.0",
+  "description": "Dungeon Dice Duel",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "dev": "node --watch --watch-preserve-output --env-file=.env server.js"
+  },
+  "author": "Liene",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}
