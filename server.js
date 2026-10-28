@@ -1,5 +1,6 @@
 import express from "express";
-import { battleRouter, heroRouter } from "./routes/diceGameRoutes.js";
+import { battleRouter } from "./routes/battle.router.js";
+import { heroRouter } from "./routes/hero.router.js";
 
 const app = express();
 
@@ -10,7 +11,7 @@ app.use(express.static("public"));
 
 app.use(express.json());
 
-app.use("/api", heroRouter);
+app.use("/api/heroes", heroRouter);
 app.use("/api/battle", battleRouter);
 
 app.listen(PORT, () => {
