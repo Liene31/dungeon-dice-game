@@ -1,15 +1,11 @@
-import { createDiceGameEngine } from "../domain/diceGameEngine.js";
-import { heroes } from "../data/heroes.js";
-
-const engine = createDiceGameEngine(heroes);
+import { heroService } from "../services/hero.service.js";
 
 export const heroController = {
-  getHeroes: (req, res) => {
+  getHeroes: async (req, res) => {
     try {
-      const heroes = engine.getHeroes();
+      const heroes = await heroService.getHeroes();
       return res.status(200).json({ heroes });
     } catch (err) {
-      res;
       return res.status(500).json({ error: "Internal server error" });
     }
   },
