@@ -1,15 +1,20 @@
 import { createDiceGameEngine } from "../domain/diceGameEngine.js";
+import { battleService } from "../services/battle.service.js";
 import { heroes } from "../data/heroes.js";
 
 const engine = createDiceGameEngine(heroes);
 
 export const battleController = {
-  startBattle: (req, res) => {
+  startBattle: async (req, res) => {
     const heroId = parseInt(req.body.heroId);
     try {
-      const players = engine.startBattle(heroId);
+      const result = await battleService.startBattle(heroId);
 
-      return res.status(200).json(players);
+      if (result.error) {
+        return res.status(result.status).json({ error: result.error });
+      }
+
+      return res.status(200).json(result);
     } catch (err) {
       return res.status(500).json({ error: "Internal server error" });
     }
