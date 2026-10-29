@@ -1,6 +1,7 @@
 import express from "express";
 import { battleRouter } from "./routes/battle.router.js";
 import { heroRouter } from "./routes/hero.router.js";
+import { authRouter } from "./routes/auth.router.js";
 
 const app = express();
 
@@ -13,6 +14,7 @@ app.use(express.json());
 
 app.use("/api/heroes", heroRouter);
 app.use("/api/battle", battleRouter);
+app.use("/api/auth", authRouter);
 
 app.listen(PORT, () => {
   console.log(`Server listens on port ${PORT}`);

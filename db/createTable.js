@@ -16,7 +16,15 @@ export async function createTable() {
         defensePower INTEGER NOT NULL,
         maxHp INTEGER NOT NULL,
         imageUrl TEXT NOT NULL  
-    )
+    );
+
+    CREATE TABLE IF NOT EXISTS users(
+        id INTEGER PRIMARY KEY AUTOINCREMENT, 
+        name TEXT,
+        username TEXT UNIQUE NOT NULL,
+        password TEXT NOT NULL,
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP      
+    );
     `);
 
   await db.close();
