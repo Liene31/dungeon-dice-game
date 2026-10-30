@@ -1,4 +1,5 @@
 import { getDBConnection } from "../db/db.js";
+import bcrypt from "bcryptjs";
 
 const db = await getDBConnection();
 
@@ -14,6 +15,26 @@ export const authService = {
     }
 
     return await authService.create(isDataValid);
+  },
+
+  login: async (userData) => {
+    let { username, password } = userData;
+
+    if (!username || !password) {
+      return { error: "All fields are required.", status: 400 };
+    }
+
+    const userExist = await authService.usernameAlreadyExists(username);
+
+    if (!userExist) {
+      return { error: "Invalid credentials", status: 401 };
+    }
+
+    if (!(await bcrypt.compare(password, userExist.password))) {
+      return { error: "Invalid credentials", status: 401 };
+    }
+
+    return userExist.id;
   },
 
   isUserInputValid: (userData) => {
@@ -32,7 +53,7 @@ export const authService = {
   usernameAlreadyExists: async (username) => {
     return await db.get(
       `
-          SELECT username
+          SELECT *
           FROM users
           WHERE username = ?
           `,
@@ -42,11 +63,12 @@ export const authService = {
 
   create: async (userData) => {
     const { name, username, password } = userData;
+    const hashedPassword = await bcrypt.hash(password, 10);
     return await db.run(
       `
                 INSERT INTO users (name, username, password)
                 VALUES(?, ?, ?)`,
-      [name, username, password],
+      [name, username, hashedPassword],
     );
   },
 };
