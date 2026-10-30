@@ -19,6 +19,7 @@ export const authController = {
   login: async (req, res) => {
     try {
       const result = await authService.login(req.body);
+      req.session.userId = result.id;
 
       if (result.error) {
         return res.status(result.status).json({ error: result.error });

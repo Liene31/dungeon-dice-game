@@ -34,7 +34,7 @@ export const authService = {
       return { error: "Invalid credentials", status: 401 };
     }
 
-    return userExist.id;
+    return { id: userExist.id };
   },
 
   isUserInputValid: (userData) => {
