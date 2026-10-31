@@ -31,4 +31,13 @@ export const authController = {
       return res.status(500).json({ error: "Login failed. Please try again." });
     }
   },
+
+  logout: (req, res) => {
+    req.session.destroy((error) => {
+      if (error) {
+        return res.status(500).json({ message: "Logout failed!" });
+      }
+      res.status(200).json({ message: "Logged out successfully!" });
+    });
+  },
 };
